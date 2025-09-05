@@ -1,0 +1,10 @@
+# Entornos virtuales
+venv/
+.venv/
+
+# Node.js
+node_modules/
+
+# Archivos de entorno
+.env
+*.env

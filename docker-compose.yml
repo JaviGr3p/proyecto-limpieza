@@ -1,0 +1,135 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    command: ["--wiredTigerCacheSizeGB", "1"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - appnet
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  mongo-express:
+    image: mongo-express:1
+    container_name: mongo-express
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASS}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASS}@mongo:27017/
+    ports:
+      - "8081:8081"
+    networks:
+      - appnet
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URL: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASS}@mongo:27017/${MONGO_DB}?authSource=admin
+      DB_NAME: ${DB_NAME}
+      SECRET_KEY: ${SECRET_KEY}
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      CORS_ORIGINS: "http://localhost,http://localhost:80,http://127.0.0.1,http://127.0.0.1:80"
+      CORS_ALLOW_CREDENTIALS: "true"
+      CORS_ALLOW_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
+      CORS_ALLOW_HEADERS: "*"
+      PYTHONUNBUFFERED: 1
+      WORKERS: 4
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+    ports:
+      - "8000:8000"
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    environment:
+      REACT_APP_BACKEND_URL: /api
+      REACT_APP_WS_URL: ws://localhost/ws
+      NODE_ENV: production
+      GENERATE_SOURCEMAP: "false"
+      REACT_APP_POSTHOG_ENABLED: "false"
+      REACT_APP_POSTHOG_API_KEY: ""
+      REACT_APP_API_URL: "http://localhost"
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    networks:
+      - appnet
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - nginx_cache:/var/cache/nginx
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+networks:
+  appnet:
+    name: appnet
+    driver: bridge
+
+volumes:
+  mongo_data:
+    name: mongo_data
+  portainer_data:
+    name: portainer_data
+  nginx_cache:
+    name: nginx_cache

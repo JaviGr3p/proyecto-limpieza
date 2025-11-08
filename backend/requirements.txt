@@ -1,0 +1,37 @@
+# --- Framework principal ---
+fastapi==0.110.1
+starlette==0.37.2
+
+# --- MongoDB (async driver) ---
+motor==3.6.0
+pymongo>=4.9,<4.10 
+
+# --- Configuración y utilidades ---
+python-dotenv==1.1.1
+typing-extensions==4.14.0
+pydantic==2.11.7
+pydantic-settings==2.1.0
+
+# --- Servidor ---
+uvicorn==0.25.0
+
+# --- Seguridad y autenticación ---
+bcrypt==4.1.2
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# --- WebSockets ---
+websockets==12.0
+
+# --- Pagos ---
+stripe==7.10.0
+
+# --- Testing ---
+pytest==8.0.0
+pytest-asyncio==0.23.5
+httpx==0.27.0
+
+# --- Producción ---
+gunicorn==21.2.0
+python-json-logger==2.0.7

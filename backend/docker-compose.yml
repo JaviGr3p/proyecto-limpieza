@@ -1,0 +1,19 @@
+backend:
+  build:
+    context: ./backend
+    dockerfile: Dockerfile
+  container_name: backend
+  restart: unless-stopped
+  depends_on:
+    - mongo
+  environment:
+    MONGO_URL: ${MONGO_URL}
+    DB_NAME: ${DB_NAME}
+    SECRET_KEY: ${SECRET_KEY}
+    STRIPE_API_KEY: ${STRIPE_API_KEY}
+    STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+    APP_ENV: ${APP_ENV}
+  expose:
+    - "8000"
+  networks:
+    - appnet

@@ -1,0 +1,12 @@
+{
+  "metrics": {
+    "funcionalidad": 90,
+    "fiabilidad": 85,
+    "usabilidad": 95,
+    "eficiencia": 80,
+    "mantenibilidad": 88,
+    "portabilidad": 90
+  },
+  "score100": 88.3,
+  "score5": 4.42
+}

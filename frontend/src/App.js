@@ -5,6 +5,7 @@ import TratamientoDatos from "./TratamientoDatos";
 import { useWebSocket } from './hooks/useWebSocket';
 import './App.css';
 import axios from 'axios';
+import CalidadSoftware from "./pages/CalidadSoftware";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://192.169.100.22:8000';
 const API = '/api';
@@ -232,6 +233,7 @@ return (
                     {/* ...rutas legales... */}
                     <Route path="/terminos" element={<Terminos />} />
                     <Route path="/tratamiento-datos" element={<TratamientoDatos />} />
+                    <Route path="/calidad" element={<CalidadSoftware />} />
                 </Routes>
             </Router>
 
@@ -321,6 +323,7 @@ return (
                     <div className="flex space-x-6">
                         <a href="/terminos" className="text-primary hover:underline text-sm">Términos y Condiciones</a>
                         <a href="/tratamiento-datos" className="text-primary hover:underline text-sm">Tratamiento de Datos</a>
+                        <a href="/Calidad" className="text-primary hover:underline text-sm">Calidad del Software</a>
                     </div>
                 </div>
             </footer>
@@ -433,7 +436,7 @@ function AuthPages() {
                             value={formData.password}
                             onChange={handleChange}
                             required
-                            className="w-full px-3 py-2 border border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 tratamientoborder border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 

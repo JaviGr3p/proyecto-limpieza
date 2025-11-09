@@ -251,7 +251,7 @@ return (
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service) => (
+                        {Array.isArray(services) && services.map((service) => (
                             <div key={service.id} className="bg-main rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                 <div className="relative">
                                     <img
@@ -306,6 +306,7 @@ return (
             {reviews.length > 0 && (
                 <section className="py-20 bg-alt">
                     {/* ...grid de testimonios... */}
+                    {/* {Array.isArray(reviews) && reviews.map((review) => ( ... ))} */}
                 </section>
             )}
 
@@ -615,7 +616,7 @@ function HomePage() {
             <section>
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Contrata nuestros servicios</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {services.map((service) => (
+                    {Array.isArray(services) && services.map((service) => (
                         <div key={service.id} className="bg-main rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                             <img src={service.image_url} alt={service.name} className="w-full h-48 object-cover" />
                             <div className="p-6">
@@ -701,7 +702,7 @@ function ServicesPage() {
         <div className="space-y-8">
             <h1 className="text-4xl font-bold text-gray-900 text-center">¿Qué esperas para contratar nuestros servicios?</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service) => (
+                {Array.isArray(services) && services.map((service) => (
                     <div key={service.id} className="bg-main rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                         <img src={service.image_url} alt={service.name} className="w-full h-48 object-cover" />
                         <div className="p-6">
@@ -1514,7 +1515,7 @@ const handleAssign = async () => {
                 </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service) => (
+                {Array.isArray(services) && services.map((service) => (
                     <div key={service.id} className="bg-main rounded-xl shadow-lg overflow-hidden">
                         <img src={service.image_url} alt={service.name} className="w-full h-48 object-cover" />
                         <div className="p-6">

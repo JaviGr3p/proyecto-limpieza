@@ -237,18 +237,26 @@ const lineData = {
             className="text-blue-600 underline"
           >
             ISO/IEC 25010:2023
+          </a>
+          <a
+            href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwj23vqi_uOQAxX2QTABHQ3LNnUQFnoECD0QAQ&url=https%3A%2F%2Frevistas.udistrital.edu.co%2Findex.php%2Ftia%2Farticle%2Fdownload%2F8373%2F11349%2F47605&usg=AOvVaw1GoPyhMitj6GHJDtw4ivdX&opi=89978449"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            ISO/IEC 25010:2011
           </a>.
         </p>
 
         <p className="text-sm mt-2">
           Consulta el resumen educativo de los pilares y características de calidad en el documento local:{" "}
           <a
-            href="/docs/incluircalidad.pdf"
+            href="https://drive.google.com/drive/folders/1N9fIi-NAU5L5-CkwXfYTBZryNAvS_36A?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 underline"
           >
-            incluircalidad.pdf
+            Carpeta Drive
           </a>
         </p>
       </section>
@@ -384,12 +392,12 @@ const lineData = {
                   title="Video explicativo"
                   width="100%"
                   height="250"
-                  src="https://www.youtube.com/embed/VIDEO_ID"
+                  src="https://www.youtube.com/embed/3F1s-tiGXrs"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Sube tu video a YouTube (no listado) y reemplaza <code>VIDEO_ID</code> con el ID del video.
+                  Vídeo explicativo corto, de la norma ISO/IEC 25010.
                 </p>
               </div>
             )}
